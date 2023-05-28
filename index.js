@@ -5,7 +5,6 @@ require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 5000;
 
-
 // middleware
 app.use(express.json());
 app.use(cors());
@@ -13,8 +12,14 @@ app.use(cors());
 
 
 
-const uri = "mongodb+srv://ReactToDoApp:dEOWmcSAZOPgSlUj@cluster0.t3cv0.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const uri = "mongodb+srv://todo_db:cTxdR9CYhvEtBoaF@cluster0.bkphobz.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
+});
 
 
 const run = async () => {
@@ -22,7 +27,7 @@ const run = async () => {
 
         await client.connect();
 
-        const todosCollection = client.db("ReactToDoApp").collection("Todos");
+        const todosCollection = client.db("todo").collection("todos");
 
 
 
@@ -83,3 +88,10 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log("Listen to Port", port);
 });
+
+
+
+
+
+
+
